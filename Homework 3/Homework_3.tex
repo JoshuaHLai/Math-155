@@ -1,0 +1,178 @@
+\documentclass{article}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[]{mcode}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\pagestyle{fancy}
+\lhead{Math 155 \\Homework \#3}
+\rhead{Joshua Lai \\804-449-134}
+
+\begin{document}
+
+\begin{enumerate}
+
+\item[1)] \textbf{\textit{Computational Project: Spatial Filtering}} \newline
+Consider the noisy X-ray image of circuit board corrupted by salt-and-pepper noise. Filter this image by applying a linear average filter 
+with a $3\times 3$ mask (use the average mask with entries $w_{s,t}=\frac{1}{9}$, for all $s,t\in \{-1,0,1\}$). You can keep the border pixels unchanged.
+
+\begin{lstlisting}
+%Import image
+original_image = imread('original_image.jpg');
+
+%Use built-in function to filter image
+image_filtered = filter2(1/9 * [1 1 1;1 1 1;1 1 1], double(original_image));
+
+%Display filtered image
+imshow(uint8(image_filtered));
+\end{lstlisting}
+
+\textbf{Please see attached pages for images.}
+
+\item[2)] Show that the Laplacian operation {\large$\nabla^2 f=\frac{\partial ^2f}{\partial x^2}+\frac{\partial ^2f}{\partial y^2}$} is isotropic 
+(invariant under rotations, or rotationally invariant). You will need the following equations relating
+coordinates after axis rotation by an angle $\theta$: 
+$$x=x'\cos\theta-y'\sin\theta$$
+$$y=x'\sin\theta+y'\cos\theta$$
+where $(x,y)$ are the unrotated and $(x',y')$ are the rotated coordinates.
+Question 3.24
+\bigbreak
+
+To prove that the Laplacian operator is isotropic, we first need to find {\Large$\frac{\partial f}{\partial x'}$}:
+
+\begin{equation}
+\frac{\partial f}{\partial x'} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial x'} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial x'}
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial f}{\partial x}\frac{\partial}{\partial x'} (x'\cos\theta - y'\sin\theta) + \frac{\partial f}{\partial y}\frac{\partial}{\partial x'} (x'\sin\theta + y'\cos\theta)
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial f}{\partial x} \left[ \frac{\partial}{\partial x'} (x'\cos\theta) - \frac{\partial}{\partial x'} (y'\sin\theta) \right] + \frac{\partial f}{\partial y} \left[ \frac{\partial }{\partial x'}(x'\sin\theta) + \frac{\partial}{\partial x'}(y'\cos\theta) \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial f}{\partial x} \cos\theta  + \frac{\partial f}{\partial y} \sin\theta 
+\end{equation}
+
+Now, we need to find {\Large$\frac{\partial^2 f}{\partial x' \hspace{.2mm} ^2}$}:
+
+\begin{equation}
+\frac{\partial^2 f}{\partial x' \hspace{.2mm} ^2} = \frac{\partial}{\partial x'} \left( \frac{\partial f}{\partial x'} \right) 
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial}{\partial x'} \left[ \frac{\partial f}{\partial x} \cos\theta + \frac{\partial f}{\partial y} \sin\theta \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial x}{\partial x'} \frac{\partial}{\partial x} \left[ \frac{\partial f}{\partial x} \cos\theta + \frac{\partial f}{\partial y} \sin\theta \right] +  \frac{\partial y}{\partial x'} \frac{\partial}{\partial y} \left[ \frac{\partial f}{\partial x} \cos\theta + \frac{\partial f}{\partial y}\sin\theta \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial ^2f}{\partial x^2} \left[ \frac{\partial x}{\partial x'} \cos\theta \right] + \frac{\partial}{\partial x} \frac{\partial f}{\partial y} \left[ \frac{\partial x}{\partial x'} \sin\theta \right] + \frac{\partial}{\partial y} \frac{\partial f}{\partial x} \left[ \frac{\partial y}{\partial x'} \cos\theta \right] +  \frac{\partial ^2f}{\partial y^2} \left[ \frac{\partial y}{\partial x'} \sin\theta \right]
+\end{equation}
+
+\bigbreak
+Substituting in the proper equations and doing some calculus, we reach the conclusion:
+
+\begin{equation}
+\frac{\partial^2 f}{\partial x' \hspace{.2mm} ^2} = \frac{\partial ^2 f}{\partial x^2} \cos ^ 2 \theta  + \frac{\partial}{\partial x} \frac{\partial f}{\partial y} \sin\theta\cos\theta  + \frac{\partial}{\partial y} \frac{\partial f}{\partial x} \sin\theta\cos\theta  +  \frac{\partial ^2 f}{\partial y^2} \sin ^ 2 \theta
+\end{equation}
+
+Now, we need to repeat the process for {\Large$\frac{\partial f}{\partial y'}$}, which gives us:
+
+\begin{equation}
+\frac{\partial f}{\partial y'} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial y'} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial y'}
+\end{equation}
+
+\begin{equation}
+\Rightarrow -\frac{\partial f}{\partial x} \sin\theta + \frac{\partial f}{\partial y}\cos\theta 
+\end{equation}
+
+We then calculate {\Large$\frac{\partial^2 f}{\partial y' \hspace{.2mm} ^2}$}, and after doing some calculus, we get:
+
+\begin{equation}
+\frac{\partial^2 f}{\partial y' \hspace{.2mm} ^2} = \frac{\partial ^2 f}{\partial x^2} \sin ^2 \theta  -  \frac{\partial}{\partial x} \frac{\partial f}{\partial y} \sin\theta\cos\theta - \frac{\partial}{\partial y} \frac{\partial f}{\partial x} \sin\theta\cos\theta  + \frac{\partial ^2 f}{\partial y^2} \cos ^ 2 \theta
+\end{equation}
+
+We then add the two equations to get our result:
+
+\begin{multline}
+\frac{\partial ^2 f}{\partial x^2} \cos ^ 2 \theta  + \frac{\partial}{\partial x} \frac{\partial f}{\partial y} \sin\theta\cos\theta + \frac{\partial}{\partial y} \frac{\partial f}{\partial x}\sin\theta\cos\theta  + \frac{\partial ^2 f}{\partial y^2} \sin ^ 2 \theta  + \\ 
++ \frac{\partial ^2 f}{\partial x^2} \sin ^2 \theta   -  \frac{\partial}{\partial x} \frac{\partial f}{\partial y} \sin\theta\cos\theta  - \frac{\partial}{\partial y} \frac{\partial f}{\partial x} \sin\theta\cos\theta  + \frac{\partial ^2 f}{\partial y^2} \cos ^ 2 \theta 
+\end{multline}
+
+\begin{equation}
+\Rightarrow \frac{\partial ^2 f}{\partial x^2} \left( \sin ^2 \theta + \cos ^2 \theta \right)  + \frac{\partial ^2 f}{\partial y^2} \left( \sin ^2 \theta + \cos ^2 \theta \right) 
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{\partial ^2 f}{\partial x^2} + \frac{\partial ^2 f}{\partial y^2}
+\end{equation}
+
+Thus, we can see that:
+$$ \frac{\partial^2 f}{\partial x' \hspace{.2mm} ^2} + \frac{\partial^2 f}{\partial y' \hspace{.2mm} ^2} =  \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y ^2}$$
+
+\item[3)] Show that the continuous Laplacian is a linear operation, in other words show that the mapping $f\mapsto \nabla^2f$ is linear on the vector space 
+of functions $f\in C^2$ in two dimensions (continuous and twice differentiable functions). 
+
+To prove that the Laplacian operator is linear, we need to show that it holds over vector addition and scalar multiplication. Let $x,y \in \mathbb{C} ^ 2$ and let $c \in \mathbb{R}$.
+
+\begin{equation}
+\nabla^2 (cx + y)  = \frac{\partial}{\partial x^2} \left[ cx + y \right] + \frac{\partial}{\partial y^2} \left[ cx + y \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow c \frac{\partial}{\partial x^2} x + \frac{\partial}{\partial x^2} y + c \frac{\partial}{\partial y^2} x + \frac{\partial}{\partial y^2} y
+\end{equation}
+
+\begin{equation}
+\Rightarrow a \left[ \frac{\partial}{\partial x^2} x + \frac{\partial}{\partial y^2} x \right] + \left[ \frac{\partial}{\partial x^2} y + \frac{\partial}{\partial y^2} y \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow a \nabla^2 x + \nabla^2 y
+\end{equation}
+
+\item[4a)] Show that the magnitude of the gradient $|\nabla f|=\sqrt{(\frac{\partial f}{\partial x})^2+(\frac{\partial f}{\partial y})^2}$ is an isotropic operation. 
+
+From problem 2, we already found {\Large$\frac{\partial f}{\partial x'}$} and {\Large$\frac{\partial f}{\partial y'}$}:
+
+\begin{equation}
+\frac{\partial f}{\partial x'} = \frac{\partial f}{\partial x} \cos\theta  + \frac{\partial f}{\partial y} \sin\theta \hspace{0.1in} \text{and} \hspace{0.1in} \frac{\partial f}{\partial y'}= -\frac{\partial f}{\partial x} \sin\theta + \frac{\partial f}{\partial y}\cos\theta 
+\end{equation}
+
+We then plug those equations into the values of the Laplacian:
+
+\begin{equation}
+\small \sqrt{ \left[ \frac{\partial f}{\partial x} \cos\theta  + \frac{\partial f}{\partial y} \sin\theta \right] ^2 + \left[ -\frac{\partial f}{\partial x} \sin\theta + \frac{\partial f}{\partial y}\cos\theta  \right] ^2 }
+\end{equation}
+
+\begin{equation}
+\small\Rightarrow \sqrt{ \left[ \left( \frac{\partial f}{\partial x} \right)^2 + \left( \frac{\partial f}{\partial y} \right)^2 \right] (\sin ^2 \theta + \cos ^2 \theta) + 2\left( \frac{\partial f}{\partial x} \right) \left( \frac{\partial f}{\partial y} \right) \sin\theta\cos\theta \\
+- 2\left( \frac{\partial f}{\partial x} \right) \left( \frac{\partial f}{\partial y} \right) \sin\theta\cos\theta}
+\end{equation}
+
+\begin{equation}
+\small \Rightarrow \sqrt{\left[ \left( \frac{\partial f}{\partial x} \right)^2 + \left( \frac{\partial f}{\partial y} \right)^2 \right]}
+\end{equation}
+
+Thus, the magnitude of the gradient of the Laplacian operator is isotropic.
+
+\item[4b)] Show that the isotropic property is lost in general if the gradient magnitude is approximated by 
+\large$|\nabla f|\approx |\frac{\partial f}{\partial x}|+|\frac{\partial f}{\partial y}|$. 
+
+\begin{equation}
+\small \left| \frac{\partial f}{\partial x'} \right| + \left| \frac{\partial f}{\partial y'} \right|
+\end{equation}
+
+\begin{equation}
+\small \Rightarrow \left| \frac{\partial f}{\partial x} \cos\theta + \frac{\partial f}{\partial y} \sin\theta \right| + \left| - \frac{\partial f}{\partial x} \sin\theta + \frac{\partial f}{\partial y} \cos\theta \right|
+\end{equation}
+
+\normalsize Clearly, we do not get the same solution as in the previous part of the problem.  Thus, if we use this definition of the gradient of the Laplacian, it will lose its isotropic property.
+\end{enumerate}
+
+\end{document}
