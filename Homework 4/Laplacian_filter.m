@@ -20,10 +20,3 @@ for i = 2:size(A,1)-1
 end
 
 imshow(B);
-
-
-% linear filtering linera spatial filtering
-% smoothing mask
-% sharpening laplacian
-
-% f(x+1,y) + f(x-1,y) + f(x,y+1) + f(x,y-1) - 4f(x,y)
