@@ -1,0 +1,253 @@
+\documentclass{article}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[]{mcode}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\pagestyle{fancy}
+\lhead{Math 155 \\Homework \#5}
+\rhead{Joshua Lai \\804-449-134}
+
+\begin{document}
+
+\begin{enumerate}
+\item[1)] Recall that the 1D DFT is 
+$$F(u)=\sum_{x=0}^{M-1}f(x)e^{-2\pi iux/M}.$$
+
+\begin{enumerate}
+
+\item[a)]Assuming the formula above, show the identity 
+$$f(x)=\frac{1}{M}\sum_{u=0}^{M-1}F(u)e^{2\pi i u x/M},$$
+using the following orthogonality of exponentials 
+$$\sum_{u=0}^{M-1}e^{-2\pi iuy/M}e^{2\pi iux/M}=
+\left\{
+\begin{array}{ll}
+M&\mbox{ if }x=y\\
+0 &\mbox{ otherwise}
+\end{array}.
+\right.
+$$
+
+\vspace{0.1in}
+\textbf{Answer:} We start with our given equation:
+$$f(x)=\frac{1}{M}\sum_{u=0}^{M-1}F(u)e^{2\pi i u x/M}$$
+
+which we then substitute the one dimension discrete Fourier transformation, which gives us:
+
+\begin{equation}
+f(x) = \frac{1}{M}\sum_{u=0}^{M-1} \sum_{y=0}^{M-1}f(y)e^{-2\pi iuy/M}e^{2\pi i u x/M} \hspace{0.1in} .
+\end{equation}
+
+Given the orthogonality of exponentials, we know that for the summation of
+$$ \sum_{u=0}^{M-1}e^{-2\pi iuy/M}e^{2\pi iux/M} \hspace{0.1in} ,$$ 
+
+we know that all cases except one will end up being $0$, with the other case becoming $M$.  Thus, we can write:
+
+\begin{equation}
+f(x) = \frac{1}{M} \times M \times \sum_{y=0}^{M-1}f(y)
+\end{equation}
+
+\begin{equation}
+\Rightarrow f(x) = f(y)
+\end{equation}
+
+And thus, the identity holds.
+
+\item[b)] Show now the converse of a): assume given $f(x)$ function of 
+$F(u)$ in the discrete case, and show the identity for $F(u)$ (use the same orthogonality of exponentials). 
+
+\vspace{0.01in}
+\textbf{Answer:} We start with our given equation:
+$$F(u)=\sum_{y=0}^{M-1}f(y)e^{-2\pi iuy/M}$$
+
+which we then substitute the one dimension discrete Fourier transformation identity, which gives us:
+\begin{equation}
+F(u)=\sum_{y=0}^{M-1}\frac{1}{M} \sum_{u=0}^{M-1} F(u) e^{2\pi i u x/M} e^{-2\pi iuy/M}
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(u)=\frac{1}{M}\sum_{y=0}^{M-1} \sum_{u=0}^{M-1} F(u) e^{2\pi i u x/M} e^{-2\pi iuy/M} \vspace{0.1in} .
+\end{equation}
+
+Using the orthogonality of exponentials, we know that all cases except one will end up being $0$, with the other case becoming $M$.  Thus, we can write:
+
+\begin{equation}
+\Rightarrow F(u) = \frac{1}{M} \times M \sum_{y=0}^{M-1} F(u)
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(u) = F(u)
+\end{equation}
+
+Thus, the identity holds.
+
+\end{enumerate}
+
+\item[2)] Show that the continuous 2D Fourier transform is a linear process. 
+
+\textbf{Answer:} Let $f,g$ be functions and let $a \in R$. From lecture, we can see that 
+
+\begin{equation}
+F(\mu , v) = \mathcal{F}[f(t,z)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(t,z)e^{-j2 \pi (\mu t + vz)} \hspace{0.05in} dtdz
+\end{equation}
+
+and therefore, we can write:
+
+\begin{equation}
+\mathcal{F}[af(t,z) + g(t,z)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [af(t,z) + g(t,z)] \times e^{-j2 \pi (\mu t + vz)} \hspace{0.05in} dtdz
+\end{equation}
+
+\begin{equation}
+\Rightarrow \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [af(t,z) \times e^{-j2 \pi (\mu t + vz)}] + [g(t,z) \times  e^{-j2 \pi (\mu t + vz)}] \hspace{0.05in} dtdz
+\end{equation}
+
+\begin{equation}
+\Rightarrow \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [af(t,z) \times e^{-j2 \pi (\mu t + vz)}] \hspace{0.05in} dtdz + \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [g(t,z) \times  e^{-j2 \pi (\mu t + vz)}] \hspace{0.05in} dtdz
+\end{equation}
+
+\begin{equation}
+\Rightarrow a \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [f(t,z) \times e^{-j2 \pi (\mu t + vz)}] \hspace{0.05in} dtdz + \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} [g(t,z) \times  e^{-j2 \pi (\mu t + vz)}] \hspace{0.05in} dtdz
+\end{equation}
+
+\begin{equation}
+\Rightarrow a \mathcal{F}[f(t,z)] + \mathcal{F}[g(t,z)]
+\end{equation}
+
+\item[3)] Compute in continuous variables the Fourier transform of the 
+function
+$$f(x)=\left\{
+\begin{array}{l}
+A, \mbox{ if }0\leq x\leq K,\\
+0, \mbox{ otherwise, }
+\end{array}
+\right. 
+$$
+where $A$ and $K$ are positive constants. Evaluate $F(0)$. 
+
+\textbf{Answer:} We start with the given equation and substitute in our function and its bounds of integration:
+
+$$F(\mu) = \int_{0}^{K} Ae^{-j2 \pi \mu t}dt$$
+
+We then solve for the equation:
+
+\begin{equation}
+\Rightarrow \frac{-A}{j2\pi\mu} \left[ e^{-j2 \pi \mu K} - e^0 \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{-A}{j2\pi\mu} \left[ e^{-j2 \pi \mu K} - 1 \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{A}{j2 \pi \mu} \left[ e^{j \pi \mu K} - e^{-j \pi \mu K} \right] e^{-j \pi \mu K} \hspace{0.1in} .
+\end{equation}
+
+Evaluating at $F(0)$, we get:
+
+\begin{equation}
+F(0) = \int_{0}^{K} f(x) e^{-j2 \pi \mu x}dx = \int_{0}^{K} f(x) dx = \int_{0}^{K} A dx = AK
+\end{equation}
+
+\item[4)] Consider again the 2D continuous Fourier transform and its inverse (denote by $H(\mu,v)$ the 2D Fourier transform of the spatial filter $h(x,y)$). 
+Show that if the transform $H(\mu ,v)$ is real and symmetric, 
+i.e. if 
+$$H(\mu ,v)=\overline{H(\mu ,v)}=\overline{H(-\mu,-v)}=H(-\mu,-v),$$ 
+then the corresponding spatial domain filter $h(x,y)$ is also real and symmetric. 
+
+\textbf{Answer:} First, we will prove that $$h(x,y) = h(-x,-y) \hspace{0.1in} .$$
+
+We first write the 2D continuous Fourier transformation and its conjugate:
+
+\begin{equation}
+h(x,y) = \iint H( \mu, v) e^{j2 \pi (\mu x + vy)} \hspace{0.2in} \text{and} \hspace{0.2in} h(-x, -y) = \iint H(\mu, v) e^{-j2 \pi (\mu x + vy)}
+\end{equation}
+
+We then can write that:
+
+\begin{equation}
+h(x,y) = \iint \overline{H(\mu , v) e^{-j2 \pi (\mu x + vy)}}
+\end{equation}
+
+\begin{equation}
+\Rightarrow \overline{h(-x, -y)}
+\end{equation}
+
+We then need to prove that 
+$$ h(x,y) = \overline{h(x,y)}$$
+
+First, we can write that:
+
+\begin{equation}
+h(x,y) = \iint \overline{H(\mu, v)}e^{j2 \pi (\mu x + vy)} \hspace{0.2in} \text{and} \hspace{0.2in} \overline{h(x,y)} = \iint H(\mu, v) e^{-j2 \pi (\mu x + vy)} \hspace{0.1in} .
+\end{equation}
+
+Since we know that $\overline{H(\mu , v)} = H(\mu, v)$, we can see that we will need to do a simple change of variables, where $s = -\mu$ and $t = -v$.  Thus, we can write:
+
+\begin{equation}
+\overline{h(x,y)} = \iint H(s, t) e^{j2\pi (sx + ty)} ds dt
+\end{equation}
+
+And after doing some calculus, we can see that $h(x,y) = \overline{h(x,y)}$.  Since we were able to prove these two equalities, logically, the other one follows.  Therefore,
+the spatial domain filter is real and symmetric.
+
+\newpage
+\item[5)] (Computational Project) {\bf Fourier Spectrum and Average Value}
+
+\begin{enumerate}
+\item[a)] Use in Matlab ``help fft'' and ``help fft2'' to learn the commands for computing discrete Fourier transforms. Sample codes using the Fourier transform in 1D and 2D are posted on the class webpage. 
+
+\textbf{Answer:} The function 'fft' will return the discrete Fourier transformation, while the 'fft2' function will return the two-dimensional Fourier transformation.
+
+\item[b)] Download Fig5.26a and compute its (centered) Fourier spectrum.
+
+\begin{lstlisting}
+A = imread('image.jpg');
+
+[M N] = size(A);
+
+B = double(A);
+
+for i = 1:M
+    for j = 1:N
+        d = (i - 1) + (j - 1);
+        C(i,j) = B(i,j) * (-1)^d;
+    end
+end
+
+fourier_transformation = fft2(C);
+
+D = abs(fourier_transformation);
+
+c=5; 
+for i = 1:M
+    for j = 1:N
+        E(i,j) = c * log(1 + D(i,j));
+    end
+end
+
+figure
+image(E); colormap(gray);
+\end{lstlisting}
+
+\item[c)] Display the spectrum.
+
+\textbf{Please see attached pages for images.}
+
+\item[d)] Using your algorithm, obtain the average value of the input image.
+\begin{lstlisting}
+composite_value = 0;
+for i = 1:M
+    for j = 1:N
+        composite_value = composite_value + B(i,j);
+    end
+end
+
+average_value = composite_value/(M * N);
+
+\end{lstlisting}
+The average value of the input image is $138.004$.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
