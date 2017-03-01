@@ -1,0 +1,263 @@
+\documentclass{article}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[]{mcode}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\pagestyle{fancy}
+\lhead{Math 155 \\Homework \#6}
+\rhead{Joshua Lai \\804-449-134}
+
+\begin{document}
+
+\begin{enumerate}
+\item[1a)]  Show in discrete variables that 
+$${\cal F}\Big(f(x,y)e^{2\pi i(u_0\frac{x}{M}+v_0\frac{y}{N})}\Big)=F(u-u_0,v-v_0),$$ where $F={\cal F}(f)$.
+
+\textbf{Answer:} We start by writing the 2-D discrete Fourier transformation:
+$$F(x,y) = {\cal F}[f(x,y)] = \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) e^{-j2 \pi (\frac{ux}{M} + \frac{vy}{N})} \hspace{0.1in} .$$ 
+
+For the given equation $f(x,y) e^{j2\pi (u_{0} x + v_{0} y)}$, we can then write:
+
+\begin{equation}
+{\cal F}[f(x,y) e^{j2\pi (u_{0} x + v_{0} y)}] =  \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} \left[ f(x,y) e^{j2\pi (u_{0} x + v_{0} y)} \right] e^{-j2\pi (\frac{ux}{M} + \frac{vy}{N})}
+\end{equation}
+
+\begin{equation}
+\Rightarrow \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) e^{-j2\pi [\frac{(u - u_{o})x}{M} + \frac{(v-v_{o})y}{N}]}
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(u - u_0 , v - v_0) \hspace{0.1in} .
+\end{equation}
+
+\item[1b)] Using a), deduce the formula used in shifting the center of the transform by multiplication with $(-1)^{x+y}$, when 
+$u_0=M/2$ and $v_0=N/2$, with $M$ and $N$ even positive integers.
+
+\textbf{Answer: } We set $u_0 = M/2$ and $v_0 = N/2$ into our given equation:
+
+\begin{equation}
+F\left(u - \frac{M}{2}, v - \frac{N}{2}\right) = \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) e^{-j2\pi \left[\frac{\left(u - \frac{M}{2}\right)x}{M} + \frac{\left(v-\frac{N}{2}\right)y}{N}\right]} \hspace{0.1in} .
+\end{equation}
+
+We then can expand our exponential to get the following results:
+
+\begin{equation}
+\Rightarrow \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) e^{-j2\pi u \frac{x}{M}} e^{-j2\pi v \frac{y}{N}} e^{j\pi(x + y)} \hspace{0.1in} .
+\end{equation}
+
+By applying Euler's formula, we know that $e^{j\pi} = cos(\pi) + j sin(\pi) = -1$.  Thus, we can write:
+
+\begin{equation}
+\Rightarrow \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) e^{-j2\pi u \frac{x}{M}} e^{-j2\pi v \frac{y}{N}} (-1)^{x+y}
+\end{equation}
+
+\begin{equation}
+\Rightarrow \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} f(x,y) e^{-j2\pi \left[ \frac{ux}{M} + \frac{vy}{N} \right]} (-1)^{x+y}
+\end{equation}
+
+\begin{equation}
+\Rightarrow {\cal F} \left[ f(x,y) (-1)^{x+y} \right]
+\end{equation}
+
+Thus, the formula for shifting the center of the transform is
+\begin{equation}
+\Rightarrow F\left(u - \frac{M}{2}, v - \frac{N}{2}\right) = f(x,y) (-1)^{x+y} \hspace{0.1in} .
+\end{equation}
+
+\item[2a)] Show the translation property 
+$${\cal F}\Big(f(x-x_0,y-y_0)\Big)=F(u,v)e^{-2\pi i(x_0u/M+y_0v/N)},$$
+where $F(u,v)={\cal F}(f(x,y))$.
+
+\textbf{Answer:} We begin with the 2D inverse discrete Fourier transform:
+$$f(x,y) = {\cal F} \left[ F(u,v) \right] = \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} F(u,v) e^{-j2\pi (\frac{ux}{M} + \frac{vy}{N})}$$
+
+We then can write:
+
+\begin{equation}
+{\cal F} \left[ F(u,v) \right] =  \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} \left[ F(u,v) e^{j2\pi (ux_0 + vy_0)} \right] e^{-j2 \pi (\frac{ux}{M} + \frac{vy}{N})}
+\end{equation}
+
+\begin{equation}
+\Rightarrow \sum_{x=0}^{M-1} \sum_{y=0}^{N-1} F(u,v) e^{-j2\pi \left[ \frac{(x-x_0)}{M} + \frac{(y-y_0)}{N} \right]}
+\end{equation}
+
+\begin{equation}
+\Rightarrow {\cal F}\Big(f(x-x_0,y-y_0)\Big)
+\end{equation}
+
+\item[2b)] Consider the linear difference operator $g(x,y)=f(x+1,y)-f(x,y)$. Obtain the filter transfer function, $H(u,v)$, for performing the equivalent process in the frequency domain. 
+
+\textbf{Answer:} We first start by applying the Fourier transform to the given equation:
+$${\cal F} \left[ f(x + 1,y) - f(x,y) \right] \hspace{0.1in} .$$
+
+We then solve for the filter transfer function:
+
+\begin{equation}
+{\cal F} \left[ f(x + 1,y) - f(x,y) \right] \hspace{0.1in} = {\cal F} \left[ f(x-(-1),y-0) - f(x,y) \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow {\cal F}\left[ f(x - (-1), y - 0) \right] - {\cal F}\left[ f(x,y) \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(u,v) \times e^{-j2\pi \left( \frac{-u}{M} \right)} - F(u,v)
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(u,v) \left[ e^{-j2\pi \left( \frac{-u}{M} \right)} - 1\right]
+\end{equation}
+
+Thus, we can see that:
+$$H(u,v) = e^{-j2\pi \left( \frac{-u}{M} \right)} - 1$$
+
+\item[3)] Prove the validity of the discrete convolution theorem in one variable (you may need to use the translation properties). 
+
+\textbf{Answer: }We first write the expression for discrete convolution of two functions:
+$$f(x) \star h(x)= \sum_{m = 0}^{M-1} f(m)h(x-m) \hspace{0.1in} .$$ 
+
+We then take the Fourier transform on both sides of the equation:
+
+\begin{equation}
+{\cal F} \left[ f(x) \star h(x) \right] = \sum_{x=0}^{M-1} \left[ \sum_{m=0}^{M-1} f(m)h(x-m) \right] e^{-j2\pi \left( \frac{ux}{M}\right)}
+\end{equation}
+
+\begin{equation}
+\Rightarrow \sum_{m=0}^{M-1} f(m) \left[ \sum_{x=0}^{M-1} h(x-m) e^{-j2\pi \left( \frac{ux}{M}\right)} \right]
+\end{equation}
+
+Using the translation property, we can write:
+
+\begin{equation}
+\sum_{m=0}^{M-1} f(m) \left[ \sum_{x=0}^{M-1} h(x-m) e^{-j2\pi \left( \frac{ux}{M}\right)} \right] = \sum_{m=0}^{M-1} f(m) H(u) e^{-j2\pi \left( \frac{um}{M}\right)}
+\end{equation}
+
+\begin{equation}
+\Rightarrow H(u) \sum_{m=0}^{M-1} f(m)  e^{-j2\pi \left( \frac{um}{M}\right)}
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(u)H(u)
+\end{equation}
+
+\item[4)] Assume that $f(x)$ is given by the discrete IFT formula in one dimension. Show the periodicity property $f(x)=f(x+kM)$, where $k$ is an integer. 
+
+\textbf{Answer: }We start with the equation $f(x +kM)$ and apply the Fourier transformation to it:
+
+$$ {\cal F}[f(x + kM)] = \sum_{u=0}^{M-1} F(u) e^{-j2\pi \left[ \frac{((u + kM)x}{M} \right]}$$
+
+We then get:
+
+\begin{equation}
+\Rightarrow \sum_{u=0}^{M-1} F(u) e^{j2\pi \left[ \frac{ux}{M} \right]} e^{j2\pi uk}
+\end{equation}
+
+Since $e^{j2\pi uk} = 1$, we can then write:
+
+\begin{equation}
+\Rightarrow \sum_{u=0}^{M-1} F(u) e^{j2\pi \left[ \frac{ux}{M} \right]}
+\end{equation}
+
+\begin{equation}
+\Rightarrow f(x)
+\end{equation}
+
+Therefore, the periodicity peropertiy holds.
+
+\newpage
+\item[5a)] Implement the Gaussian lowpass filter in Eq. (4.3-8), using a 
+radius $D_0=25$, and apply the algorithm to Fig4.11(a).  
+
+\textbf{Please see attached pages for images.}
+
+\begin{lstlisting}
+A = imread('image.jpg');
+
+[M N] = size(A); 
+
+B=double(A);
+
+% multiply f by (-1)^(x+y) to shift the center 
+for i = 1:M
+   for j = 1:N
+         d = (i - 1) + (j - 1);
+         C(i,j) = B(i,j)*(-1)^d;
+   end
+end
+
+% compute the DFT of f*(-1)^{x+y} 
+D=fft2(C);
+
+%Create filter
+for u = 1:M
+    for v = 1:N
+        P = (u - ((2 * M - 1) / 2))^2;
+        Q = (v - ((2 * N - 1) / 2))^2;
+        H(u,v) = exp(-(P + Q) / 1250);
+    end
+end
+
+%Apply filter to image
+for i = 1:M
+    for j = 1:N
+        E(i,j) = D(i,j).*H(u,v);
+    end
+end
+
+%Use inverse Fourier transformation
+F = ifft2(E);
+
+imshow(F);
+\end{lstlisting}
+
+\newpage
+\item[5b)] Highpass the input image used in (a), using a highpass Gaussian filter
+of radius $D_0=25$ (see eq. (4.4-4)). 
+
+\textbf{Please see attached pages for images.}
+
+\begin{lstlisting}
+A = imread('image.jpg');
+
+[M N] = size(A); 
+
+B=double(A);
+
+% multiply f by (-1)^(x+y) to shift the center 
+for i = 1:M
+   for j = 1:N
+         d = (i - 1) + (j - 1);
+         C(i,j) = B(i,j)*(-1)^d;
+   end
+end
+
+% compute the DFT of f*(-1)^{x+y} 
+D=fft2(C);
+
+%Create filter
+for u = 1:M
+    for v = 1:N
+        P = (u - ((2 * M - 1) / 2))^2;
+        Q = (v - ((2 * N - 1) / 2))^2;
+        H(u,v) = 1 - exp(-(P + Q) / 1250);
+    end
+end
+
+%Apply filter to image
+for i = 1:M
+    for j = 1:N
+        E(i,j) = D(i,j).*H(u,v);
+    end
+end
+
+%Use inverse Fourier transformation
+F = ifft2(E);
+
+imshow(F);
+
+\end{lstlisting}
+
+\end{enumerate}
+
+\end{document}
