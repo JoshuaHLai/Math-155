@@ -4,7 +4,7 @@ A = imread('original_image_problem_2.jpg');
 %Create seperate matrix to duplicate and show image
 B = zeros(size(A));
 
-%Loop through internior pixels of image
+%Loop through interior pixels of image
 for i = 2:size(A,1) - 2
     for j = 2:size(A,2)-2
         
