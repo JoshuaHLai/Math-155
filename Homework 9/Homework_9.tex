@@ -1,0 +1,212 @@
+\documentclass{article}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[]{mcode}
+\usepackage{amsmath, amssymb}
+\pagestyle{fancy}
+\lhead{Math 155 \\Homework \#9}
+\rhead{Joshua Lai \\804-449-134}
+
+\begin{document}
+
+\begin{enumerate}
+\item[1)] Consider the motion blur in the frequency domain given by 
+$$H(u,v)=\int_{0}^Te^{-2\pi i[ux_0(t)+vy_0(t)]}dt \hspace{0.1in}.$$ 
+For uniform motion given by $x_0(t)=\frac{at}{T}$ and $y_0(t)=\frac{bt}{T}$ (where $T$ is exposure time), show that the degradation function becomes 
+$$H(u,v)=\frac{T}{\pi(ua+vb)}\sin{[\pi(ua+vb)]}e^{-\pi i(ua+vb)} \hspace{0.1in}.$$
+
+\textbf{Answer: }We start with our given equation and substitute in $x_0(t)$ and $y_0(t)$ to get:
+
+\begin{equation}
+H(u,v) = \int_{0}^{T} e^{\frac{-i2\pi t}{T}  (ua + vb) } dt \hspace{0.1in} .
+\end{equation}
+
+\begin{equation}
+\Rightarrow - \frac{T}{i2\pi (ua + vb)} \left[ e^{\frac{-i2\pi t}{T}  (ua + vb)} \right] \Big|_0^T
+\end{equation}
+
+\begin{equation}
+\Rightarrow - \frac{T}{i2\pi (ua + vb)} \left[ e^{-i2\pi (ua + vb)} - 1 \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{T}{i2\pi (ua + vb)} \left[ 1 - e^{-i2\pi (ua + vb)} \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{T}{i2\pi (ua + vb)} \left[ e^{-i\pi(ua + vb)}e^{i\pi(ua + vb)} - e^{-i2\pi (ua+vb)} \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{T}{i2\pi (ua + vb)} \left[ e^{-i\pi (ua + vb)} \right] \left[ e^{i\pi(ua + vb)} - e^{-i\pi(ua + vb)} \right]
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{T}{i2\pi (ua + vb)} \left[ e^{-i\pi (ua + vb)} \right] (i2 \sin(\pi (ua + bv)))
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{T}{\pi(ua+vb)}\sin{[\pi(ua+vb)]}e^{-\pi i(ua+vb)} \hspace{0.1in} .
+\end{equation}
+
+\item[2)] Recall the 1D Laplacian of Gaussian ($L \circ G$) operator 
+$$\nabla^2 h(r)= \Big[\frac{r^2-\sigma^2}{\sigma^4}\Big]e^{-\frac{r^2}{2\sigma^2}} \hspace{0.1in}.$$ 
+
+\begin{enumerate}
+\item[a)] Show that the integration of the $L \circ G$ operator $\nabla^2 h$ is zero. Use the following identities: 
+$$\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{+\infty}e^{-r^2/(2\sigma^2)}dr=1, \ \sigma^2=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{+\infty}r^2e^{-r^2/(2\sigma^2)}dr \hspace{0.1in} .$$
+
+\textbf{Answer: }We need to take the integration of the given formula, thus we get the following:
+
+\begin{equation}
+\int_{-\infty}^{\infty} \nabla^2 h(r) = \int_{-\infty}^{\infty} \Big[\frac{r^2-\sigma^2}{\sigma^4}\Big]e^{-\frac{r^2}{2\sigma^2}} dr
+\end{equation}
+
+\begin{equation}
+\Rightarrow \frac{1}{\sigma ^ 4} \int_{-\infty}^{\infty} r^2 e^{-\frac{r^2}{2\sigma^2}} dr - \int_{-\infty}^{\infty} \frac{1}{\sigma ^ 2} e^{-\frac{r^2}{2\sigma^2}} dr
+\end{equation}
+
+Since we have the given identities, we know that 
+
+\begin{equation}
+\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{+\infty}e^{-r^2/(2\sigma^2)}dr = 1 \hspace{0.1in} \Rightarrow \hspace{0.1in} \int_{-\infty}^{\infty} e^{-\frac{r^2}{2 \sigma^2}} dr = \sqrt{2 \pi} \sigma
+\end{equation}
+
+and
+
+\begin{equation}
+\ \sigma^2=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{+\infty}r^2e^{-r^2/(2\sigma^2)} dr \hspace{0.1in} \Rightarrow \hspace{0.1in} \sqrt{2 \pi} \sigma ^ 3 = \int_{-\infty}^{\infty} r^2 e^{-\frac{r^2}{2 \sigma ^ 2}}
+\end{equation}
+
+and therefore, we can write the following:
+
+\begin{equation}
+\Rightarrow \left( \frac{\sqrt{2 \pi} \sigma ^ 3}{\sigma ^ 4} \right) \left( \sqrt{2 \pi} \sigma \right) + \left( \frac{\sqrt{2 \pi} \sigma ^ 3}{\sigma ^ 4} \right) \left( \sqrt{2 \pi} \sigma \right) - \frac{2(\sqrt{2 \pi} \sigma) ^ 2}{\sigma ^ 2}
+\end{equation}
+
+\begin{equation}
+\Rightarrow 2\pi + 2 \pi - 4 \pi
+\end{equation}
+
+\begin{equation}
+\Rightarrow 0
+\end{equation}
+
+Thus, the integration of the $L \circ G$ operator $\nabla^2 h$ is zero.
+
+\item[b)] Prove that the integration of any function convolved with this operator is also zero. (Hint: Use the frequency domain.)
+
+\textbf{Answer: }Let the Fourier transform of $\nabla^2 h$ be $\nabla^2 \hat h$. Let the image and its Fourier transform be denoted as $f(x,y)$ and $F(u,v)$ respectively. The expression $f(x,y)$ convolved with this operator
+is 
+
+$$h(x,y) = f(x,y) \star \nabla^2 h \hspace{0.1in} .$$
+
+Convolution in the time domain leads to multiplication in the frequency domain:
+
+$$H(u,v) = F(u,v) \nabla^2 h \hspace{0.1in}$$
+
+The integration of $\nabla^2 h$ is zero. Also, the integration in the time domain is equivalent to the value of its transform at the origin of the frequency domain.  Similarly, the integration of $h(x,y)$ is equivalent to $H(0,0)$.
+Thus, we can write:
+
+\begin{equation}
+\overline{h}(x,y) = H(0,0)
+\end{equation}
+
+\begin{equation}
+\Rightarrow F(0,0)\nabla^2 h(0,0)
+\end{equation}
+
+\begin{equation}
+\Rightarrow 0
+\end{equation}
+
+Thus, the integration of any image convolved with this operator is zero.
+
+\end{enumerate}
+
+\newpage
+\textbf{Optional Problems:}
+
+\item[3)] \textbf{Parametric Wiener Filter}
+\begin{enumerate}
+\item[a)] Implement a motion blurring filter as in problem (1).
+
+\begin{lstlisting}
+%Import Image
+original_image = imread('Fig5.26a.jpg');
+original_image_double = im2double(original_image);
+
+[M,N] = size(original_image_double);
+[V,U] = meshgrid(1:N, 1:M);
+
+U = U - floor(M / 2);
+V = V - floor(N / 2);
+
+%Define Parameters
+a = 0.1;
+b = 0.1;
+T = 1;
+
+exponential = pi*((U * a) + (V * b) + eps);
+
+degradation_function = T ./ exponential .* sin( exponential ) ...
+    .* exp(-1j * exponential);
+degradation_function = ifftshift(degradation_function);
+
+frequency_shift = fft2(original_image_double);
+applied_filter = degradation_function .* frequency_shift;
+new_image = real(ifft2(applied_filter));
+new_image = im2uint8(mat2gray(new_image));
+\end{lstlisting}
+
+\item[b)] Download `Fig. 5.26(a)' and blur the image in the $+45 ^{\circ}$ direction using $T=1$, as in `Fig. 5.26(b)' ($a = b = 0.1$).
+\newline\textbf{Please see attached pages for images.}
+
+\item[c)] Add a small amount of Gaussian noise of $0$ mean to the blurred image.
+
+\begin{lstlisting}
+B = imnoise(new_image, 'gaussian', 0);
+\end{lstlisting}
+
+\item[d)] Restore the image using the parametric Wiener filter given by:
+$$\hat F(u,v)=\Big[\frac{1}{H(u,v)}\frac{|H(u,v)|^2}{|H(u,v)|^2+K}\Big]G(u,v),$$
+where $K$ is a specified constant, chosen to obtain best visual results.
+
+\textbf{Please see attached pages for images.} \newline
+Note: Some of the code was taken from StackOverflow.
+ 
+\begin{lstlisting}
+PSF = fspecial('motion', 21, 11);
+blurred = imfilter(original_image, PSF, 'conv', 'circular');
+noise_mean = 0;
+noise_var = 0.0001;
+blurred_noisy = imnoise(blurred, 'gaussian', noise_mean, noise_var);
+signal_var = var(original_image_double(:));
+wiener_filter = deconvwnr(blurred_noisy, PSF, noise_var / signal_var);
+imshow(wiener_filter); title('Wiener Filter');
+\end{lstlisting}
+
+\end{enumerate}
+
+\newpage
+\item[4a)] Give the main steps of edge finding using the zero-crossings of the Laplacian of
+Gaussian.
+
+\textbf{Answer: }We first the import the image as $f(x,y)$ and we define $h_G$ as our Gaussian (blur) function. We then convolve the image with the blur function and take the Laplacian of the image:
+$$\nabla ^2(h_G \star f) = (\nabla ^ 2 h_G) \star f \hspace{0.1in} .$$
+
+We know that $ (\nabla ^ 2 h_G)$ is the Laplcian of Gaussian operator. Afterwards, we take the values after the convolution such as if the value at a certain pixel is greater than 0, then it will be assigned black and otherwise, it will be assigned white.
+Through that, we can see the boundaries of the image by using a derivative mask such as the gradient, and thus, we have the zero crossing method.
+
+\item[4b)] Implement and apply this method to the angiogram image from `Fig. 10.15(a)' (as in`Fig. 10.22' for the house image, but you will apply your method to the angiogram image).\newline
+\textbf{Please see attached pages for images.}
+
+\begin{lstlisting}
+original_image = imread('Fig10.15a.jpg');
+new_image = edge(original_image, 'zerocross');
+imshow(new_image); title('Zero-Crossing of Image');
+\end{lstlisting}
+
+\end{enumerate}
+
+\end{document}
