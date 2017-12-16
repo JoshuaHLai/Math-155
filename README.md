@@ -1,4 +1,4 @@
-# Math155
+# Math-155
 UCLA Math 155 Winter 2017
 
 | Assignment    | Grade        | Due Date  | Comments                      |
